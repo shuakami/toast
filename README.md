@@ -21,7 +21,7 @@ npm install motion lucide-react
 
 **2. Copy the component**
 
-Copy the consolidated source code from the documentation site and save it to your project, for example `src/components/toast.tsx`.
+Copy the consolidated source code from the [documentation site](https://shuakami-toast.vercel.app) and save it to your project, for example `src/components/toast.tsx`.
 
 ## Usage
 
