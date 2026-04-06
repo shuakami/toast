@@ -1,0 +1,5 @@
+{
+  "name": "shuakami/toast",
+  "description": "shuakami/toast is a motion-driven React toast system with layered stack animations, theme presets, and flexible APIs for polished notifications.",
+  "requestFramePermissions": []
+}
