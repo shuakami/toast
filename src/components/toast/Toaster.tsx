@@ -33,9 +33,20 @@ export const Toaster: React.FC<ToasterProps> = ({
   const [heights, setHeights] = useState<Record<string, number>>({});
   
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const toasterRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     return toastStore.subscribe(setToasts);
+  }, []);
+
+  useEffect(() => {
+    const handleGlobalTouch = (e: TouchEvent) => {
+      if (toasterRef.current && !toasterRef.current.contains(e.target as Node)) {
+        setIsHovered(false);
+      }
+    };
+    document.addEventListener('touchstart', handleGlobalTouch);
+    return () => document.removeEventListener('touchstart', handleGlobalTouch);
   }, []);
 
   const currentTheme = themes[theme]?.[isDarkMode ? 'dark' : 'light'] || themes['default']['light'];
@@ -56,15 +67,24 @@ export const Toaster: React.FC<ToasterProps> = ({
     });
   }, []);
 
-  const handleMouseEnter = useCallback(() => {
+  const handlePointerEnter = useCallback((e: React.PointerEvent) => {
+    if (e.pointerType === 'touch') return;
     if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
     setIsHovered(true);
   }, []);
 
-  const handleMouseLeave = useCallback(() => {
+  const handlePointerLeave = useCallback((e: React.PointerEvent) => {
+    if (e.pointerType === 'touch') return;
     hoverTimeoutRef.current = setTimeout(() => {
       setIsHovered(false);
     }, 150);
+  }, []);
+
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    if (e.pointerType === 'touch') {
+      if ((e.target as HTMLElement).closest('button')) return;
+      setIsHovered((prev) => !prev);
+    }
   }, []);
 
   const { offsets, totalHeight } = useMemo(() => {
@@ -80,10 +100,12 @@ export const Toaster: React.FC<ToasterProps> = ({
 
   return (
     <div 
+      ref={toasterRef}
       className={`fixed ${positionClasses[position]} w-[calc(100vw-32px)] sm:w-[360px] z-[100] pointer-events-none`}
       style={{ height: toasts.length > 0 ? (isHovered ? totalHeight : 80) : 0 }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
+      onPointerDown={handlePointerDown}
     >
       <div className="relative w-full h-full">
         <AnimatePresence mode="popLayout">

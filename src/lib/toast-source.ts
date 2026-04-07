@@ -62,7 +62,9 @@ export interface ToastAnimation {
 }
 
 
-export const themes: Record<string, { name: string, light: ToastTheme, dark: ToastTheme }> = {
+type BuiltInToastTheme = Omit<ToastTheme, 'name'>;
+
+export const themes: Record<string, { name: string, light: BuiltInToastTheme, dark: BuiltInToastTheme }> = {
   default: {
     name: 'Default (Glass)',
     light: {
@@ -513,6 +515,7 @@ export const Toast = React.memo(({ toast, index, onRemove, isHovered, position, 
   const isBottom = position.startsWith('bottom');
   const sign = isBottom ? -1 : 1;
   const ref = useRef<HTMLDivElement>(null);
+  const [dragExit, setDragExit] = useState<number | null>(null);
 
   const stackedOffset = index * 12; 
   const offset = isHovered ? hoverOffset : stackedOffset;
@@ -547,7 +550,8 @@ export const Toast = React.memo(({ toast, index, onRemove, isHovered, position, 
 
   const styleObj = React.useMemo(() => ({ 
     zIndex,
-    willChange: "transform, opacity, filter"
+    willChange: "transform, opacity, filter",
+    filter: "blur(0px)"
   }), [zIndex]);
 
   return (
@@ -555,10 +559,23 @@ export const Toast = React.memo(({ toast, index, onRemove, isHovered, position, 
       ref={ref}
       initial={initialAnimation}
       animate={animateAnimation}
-      exit={exitAnimation}
+      exit={dragExit !== null ? { x: dragExit, opacity: 0, filter: "blur(10px)", transition: { duration: 0.2, ease: "easeOut" } } : exitAnimation}
       transition={animation.transition}
       style={styleObj}
       className={\`absolute \${isBottom ? 'bottom-0' : 'top-0'} w-full \${theme.borderRadius || 'rounded-xl'} \${theme.background} border \${theme.border} p-4 flex flex-col group pointer-events-auto \${theme.shadow}\`}
+      drag="x"
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={0.7}
+      onDragEnd={(e, info) => {
+        if (Math.abs(info.offset.x) > 80 || Math.abs(info.velocity.x) > 500) {
+          const direction = info.offset.x > 0 ? 1 : -1;
+          setDragExit(direction * window.innerWidth);
+          // Delay removal slightly to ensure the component re-renders with the new exit animation prop.
+          setTimeout(() => {
+            onRemove(toast.id);
+          }, 10);
+        }
+      }}
     >
       <div className="flex items-start">
         <AnimatePresence>
@@ -664,9 +681,20 @@ export const Toaster: React.FC<ToasterProps> = ({
   const [heights, setHeights] = useState<Record<string, number>>({});
   
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const toasterRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     return toastStore.subscribe(setToasts);
+  }, []);
+
+  useEffect(() => {
+    const handleGlobalTouch = (e: TouchEvent) => {
+      if (toasterRef.current && !toasterRef.current.contains(e.target as Node)) {
+        setIsHovered(false);
+      }
+    };
+    document.addEventListener('touchstart', handleGlobalTouch);
+    return () => document.removeEventListener('touchstart', handleGlobalTouch);
   }, []);
 
   const currentTheme = themes[theme]?.[isDarkMode ? 'dark' : 'light'] || themes['default']['light'];
@@ -687,15 +715,24 @@ export const Toaster: React.FC<ToasterProps> = ({
     });
   }, []);
 
-  const handleMouseEnter = useCallback(() => {
+  const handlePointerEnter = useCallback((e: React.PointerEvent) => {
+    if (e.pointerType === 'touch') return;
     if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
     setIsHovered(true);
   }, []);
 
-  const handleMouseLeave = useCallback(() => {
+  const handlePointerLeave = useCallback((e: React.PointerEvent) => {
+    if (e.pointerType === 'touch') return;
     hoverTimeoutRef.current = setTimeout(() => {
       setIsHovered(false);
     }, 150);
+  }, []);
+
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    if (e.pointerType === 'touch') {
+      if ((e.target as HTMLElement).closest('button')) return;
+      setIsHovered(prev => !prev);
+    }
   }, []);
 
   const { offsets, totalHeight } = useMemo(() => {
@@ -711,10 +748,12 @@ export const Toaster: React.FC<ToasterProps> = ({
 
   return (
     <div 
+      ref={toasterRef}
       className={\`fixed \${positionClasses[position]} w-[calc(100vw-32px)] sm:w-[360px] z-[100] pointer-events-none\`}
       style={{ height: toasts.length > 0 ? (isHovered ? totalHeight : 80) : 0 }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
+      onPointerDown={handlePointerDown}
     >
       <div className="relative w-full h-full">
         <AnimatePresence mode="popLayout">
