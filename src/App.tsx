@@ -350,6 +350,47 @@ function AppContent() {
       {/* Main Content */}
       <main className="flex-1 p-8 md:p-16 lg:p-24 flex justify-center">
         <div className="w-full max-w-4xl space-y-24">
+          <div className="hidden md:flex w-full aspect-[21/9] min-h-[350px] relative rounded-3xl overflow-hidden flex-col items-center justify-center group border border-zinc-200/60 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.95),_rgba(244,244,245,0.92)_45%,_rgba(228,228,231,0.9)_100%)]">
+            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.55),rgba(255,255,255,0.12))]" />
+            <div className="absolute -top-16 -left-10 h-56 w-56 rounded-full bg-sky-200/35 blur-3xl" />
+            <div className="absolute -bottom-12 right-8 h-48 w-48 rounded-full bg-amber-200/30 blur-3xl" />
+
+            <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">
+              <div className="relative w-[320px] h-[92px]">
+                <div className="absolute top-0 left-0 w-full bg-white/60 backdrop-blur-2xl saturate-[1.5] border border-white/40 rounded-[20px] p-4 flex items-center gap-3 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.6)] transform scale-[0.80] translate-y-16 opacity-30 transition-all duration-500 group-hover:translate-y-20 group-hover:scale-[0.75]">
+                  <div className="flex flex-col gap-1.5 flex-1">
+                    <div className="h-3.5 w-28 bg-black/10 rounded" />
+                    <div className="h-2.5 w-36 bg-black/5 rounded" />
+                  </div>
+                </div>
+                <div className="absolute top-0 left-0 w-full bg-white/60 backdrop-blur-2xl saturate-[1.5] border border-white/40 rounded-[20px] p-4 flex items-center gap-3 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.6)] transform scale-[0.85] translate-y-12 opacity-50 transition-all duration-500 group-hover:translate-y-16 group-hover:scale-[0.80]">
+                  <div className="flex flex-col gap-1.5 flex-1">
+                    <div className="h-3.5 w-24 bg-black/10 rounded" />
+                    <div className="h-2.5 w-32 bg-black/5 rounded" />
+                  </div>
+                </div>
+                <div className="absolute top-0 left-0 w-full bg-white/60 backdrop-blur-2xl saturate-[1.5] border border-white/40 rounded-[20px] p-4 flex items-center gap-3 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.6)] transform scale-90 translate-y-8 opacity-70 transition-all duration-500 group-hover:translate-y-12 group-hover:scale-[0.85]">
+                  <div className="flex flex-col gap-1.5 flex-1">
+                    <div className="h-3.5 w-20 bg-black/10 rounded" />
+                    <div className="h-2.5 w-40 bg-black/5 rounded" />
+                  </div>
+                </div>
+                <div className="absolute top-0 left-0 w-full bg-white/60 backdrop-blur-2xl saturate-[1.5] border border-white/40 rounded-[20px] p-4 flex items-center gap-3 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.6)] transform scale-95 translate-y-4 opacity-90 transition-all duration-500 group-hover:translate-y-6 group-hover:scale-[0.92]">
+                  <div className="flex flex-col gap-1.5 flex-1">
+                    <div className="h-3.5 w-24 bg-black/10 rounded" />
+                    <div className="h-2.5 w-32 bg-black/5 rounded" />
+                  </div>
+                </div>
+                <div className="absolute top-0 left-0 w-full bg-white/60 backdrop-blur-2xl saturate-[1.5] border border-white/40 rounded-[20px] p-4 flex items-center gap-3 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.6)] transform scale-100 translate-y-0 opacity-100 transition-all duration-500 group-hover:-translate-y-1">
+                  <div className="flex flex-col gap-0.5 flex-1">
+                    <span className="text-[14px] font-medium text-black/90">New Notification</span>
+                    <span className="text-[13px] text-black/60">Drag, stack, and copy the latest toast source code.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <section id="introduction" className="space-y-4">
             <h1 className={`text-2xl font-semibold tracking-tight transition-colors duration-300 ${isDarkMode ? 'text-zinc-100' : 'text-zinc-900'}`}>shuakami/toast</h1>
             <p className={`text-[14px] leading-relaxed transition-colors duration-300 ${isDarkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>
