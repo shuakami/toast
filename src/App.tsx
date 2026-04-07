@@ -350,10 +350,16 @@ function AppContent() {
       {/* Main Content */}
       <main className="flex-1 p-8 md:p-16 lg:p-24 flex justify-center">
         <div className="w-full max-w-4xl space-y-24">
-          <div className="hidden md:flex w-full aspect-[21/9] min-h-[350px] relative rounded-3xl overflow-hidden flex-col items-center justify-center group border border-zinc-200/60 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.95),_rgba(244,244,245,0.92)_45%,_rgba(228,228,231,0.9)_100%)]">
-            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.55),rgba(255,255,255,0.12))]" />
-            <div className="absolute -top-16 -left-10 h-56 w-56 rounded-full bg-sky-200/35 blur-3xl" />
-            <div className="absolute -bottom-12 right-8 h-48 w-48 rounded-full bg-amber-200/30 blur-3xl" />
+          <div className="hidden md:flex w-full aspect-[21/9] min-h-[350px] relative rounded-3xl overflow-hidden flex-col items-center justify-center group border border-zinc-200/70 bg-[linear-gradient(135deg,_rgba(250,250,249,0.98)_0%,_rgba(244,244,245,0.94)_42%,_rgba(231,229,228,0.92)_100%)] shadow-[0_28px_90px_rgba(15,23,42,0.08)]">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_20%,_rgba(255,255,255,0.98),_transparent_32%),radial-gradient(circle_at_82%_18%,_rgba(191,219,254,0.42),_transparent_26%),radial-gradient(circle_at_76%_76%,_rgba(244,114,182,0.16),_transparent_22%),radial-gradient(circle_at_28%_82%,_rgba(251,191,36,0.18),_transparent_24%)]" />
+            <div className="absolute inset-0 opacity-40 bg-[linear-gradient(rgba(255,255,255,0.62)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.5)_1px,transparent_1px)] [background-size:42px_42px]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_36%,_rgba(15,23,42,0.12)_100%)]" />
+            <div className="absolute inset-[18px] rounded-[28px] border border-white/70 bg-[linear-gradient(135deg,_rgba(255,255,255,0.42),_rgba(255,255,255,0.12))] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]" />
+            <div className="absolute left-10 top-10 h-44 w-44 rounded-full bg-white/65 blur-3xl" />
+            <div className="absolute right-14 top-8 h-36 w-36 rounded-full bg-sky-200/30 blur-3xl" />
+            <div className="absolute bottom-8 left-24 h-28 w-28 rounded-full bg-rose-200/18 blur-3xl" />
+            <div className="absolute bottom-10 right-20 h-32 w-32 rounded-full bg-amber-200/20 blur-3xl" />
+            <div className="absolute inset-x-16 top-1/2 h-[190px] -translate-y-1/2 rounded-[34px] border border-white/55 bg-[linear-gradient(135deg,_rgba(255,255,255,0.52),_rgba(255,255,255,0.16))] shadow-[0_24px_80px_rgba(255,255,255,0.28),inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur-2xl" />
 
             <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">
               <div className="relative w-[320px] h-[92px]">
